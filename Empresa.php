@@ -174,4 +174,28 @@ class Empresa {
         return $clienteEncontrado;
     }
 
+    // Implementar el método informarSumaVentasNacionales() que recorre la colección de ventas realizadas por la empresa y retorna el importe total de ventas Nacionales realizadas por la empresa.
+    public function informarSumaVentasNacionales(){
+        $colVentas = $this->getColObjVentas();
+        $sumaVentasNacionales = 0;
+        foreach ($colVentas as $venta){
+            $sumaVentalNacional = $venta->retornarTotalVentaNacional();
+            $sumaVentasNacionales += $sumaVentalNacional;
+        }
+        return $sumaVentasNacionales;
+    }
+
+
+    // Implementar el método informarVentasImportadas() que recorre la colección de ventas realizadas por la empresa y retorna una colección de ventas de motos  importadas. Si en la venta al menos una de las motos es importada la venta debe ser informada.(*IMPORTANTE: invocar a los métodos implementados en la clase venta cuando crea necesario)
+    public function informarVentasImportadas(){
+        $colVentas = $this->getColObjVentas();
+        $ventasImportadas = [];
+        foreach ($colVentas as $venta){
+            $motosImportadasEnLaVenta = $venta->retornarMotosImportadas();
+            if (!empty($motosImportadasEnLaVenta)){
+                $ventasImportadas[] = $venta;
+            }
+        }
+        return $ventasImportadas;
+    }
 }
