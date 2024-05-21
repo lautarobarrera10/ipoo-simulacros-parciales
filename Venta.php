@@ -100,4 +100,27 @@ class Venta {
         }
         return $precioFinal;
     }
+
+    // Implementar el método retornarTotalVentaNacional() que retorna  la sumatoria del precio venta de cada una de las motos Nacionales vinculadas a la venta.
+    public function retornarTotalVentaNacional(){
+        $colMotos = $this->getColObjMotos();
+        $sumatoria = 0;
+        foreach ($colMotos as $moto){
+            if ($moto instanceof MotoNacional) {
+                $sumatoria += $moto->darPrecioVenta();
+            }
+        }
+        return $sumatoria;
+    }
+    // Implementar el método retornarMotosImportadas() que retorna una colección de motos importadas vinculadas a la venta. Si la venta solo se corresponde con motos Nacionales la colección retornada debe ser vacía.
+    public function retornarMotosImportadas(){
+        $colMotos = $this->getColObjMotos();
+        $motosImportadas = [];
+        foreach ($colMotos as $moto){
+            if ($moto instanceof MotoImportada) {
+                $motosImportadas[] = $moto;
+            }
+        }
+        return $motosImportadas;
+    }
 }
