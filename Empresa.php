@@ -65,23 +65,23 @@ class Empresa {
         $this->colObjVentas = $value;
     }
 
-    public function __toString(){
+    public function __toString() {
         $clienteString = "";
         $motoString = "";
         $ventaString = "";
-
-        foreach ($this->getObjClientes() as $cliente){
+    
+        foreach ($this->getObjClientes() as $cliente) {
             $clienteString .= $cliente . "\n";
         }
-
-        foreach ($this->getColObjMotos() as $moto){
+    
+        foreach ($this->getColObjMotos() as $moto) {
             $motoString .= $moto . "\n";
         }
-
-        foreach ($this->getColObjVentas() as $venta){
+    
+        foreach ($this->getColObjVentas() as $venta) {
             $ventaString .= $venta . "\n";
         }
-
+    
         return
         "Denominación: " . $this->getDenominacion() . "\n" .
         "Dirección: " . $this->getDireccion() . "\n" .
@@ -107,30 +107,35 @@ class Empresa {
     }
 
     // 6. Implementar el método registrarVenta($colCodigosMoto, $objCliente) método que recibe por parámetro una colección de códigos de motos, la cual es recorrida, y por cada elemento de la colección se busca el objeto moto correspondiente al código y se incorpora a la colección de motos de la instancia Venta que debe ser creada. Recordar que no todos los clientes ni todas las motos, están disponibles para registrar una venta en un momento determinado. El método debe setear los variables instancias de venta que corresponda y retornar el importe final de la venta.
-    public function registrarVenta(array $colCodigosMoto, Cliente $objCliente){
+    public function registrarVenta(array $colCodigosMoto, Cliente $objCliente) {
         $importeFinal = 0;
         // Verificamos que el cliente no esté dado de baja
-        if (!$objCliente->getDadoDeBaja()){
+        if (!$objCliente->getDadoDeBaja()) {
             // Creamos la venta
-            $venta = new Venta(1, new DateTime(), $objCliente, []);
+            $venta = new Venta(1, "20/05/2024", $objCliente, []);
             // Recorremos los códigos de motos
-            foreach ($colCodigosMoto as $codigoMoto){
+            foreach ($colCodigosMoto as $codigoMoto) {
                 // Buscamos la moto con el código
                 $moto = $this->retornarMoto($codigoMoto);
                 // Si encontramos la moto
-                if ($moto != null){
+                if ($moto != null) {
                     // La sumamos a la venta
                     $venta->incorporarMoto($moto);
                 }
             }
             // Después de recorrer todos los códigos obtenemos el precio final
             $importeFinal = $venta->getPrecioFinal();
+            // Agregamos la venta a la colección de ventas de la empresa
+            $colVentas = $this->getColObjVentas();
+            array_push($colVentas, $venta);
+            $this->setColObjVentas($colVentas);
         } else {
             // Si el cliente está dado de baja retorna -1
             $importeFinal = -1;
         }
         return $importeFinal;
     }
+    
 
     // 7. Implementar el método retornarVentasXCliente($tipo,$numDoc) que recibe por parámetro el tipo y número de documento de un Cliente y retorna una colección con las ventas realizadas al cliente.
     public function retornarVentasXCliente(string $tipo, int $numDoc){

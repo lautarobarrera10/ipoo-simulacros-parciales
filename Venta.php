@@ -16,7 +16,7 @@ class Venta {
     private $colObjMotos;
     private $precioFinal;
 
-    public function __construct(int $numero, DateTime $fecha, Cliente $objCliente, array $colObjMotos){
+    public function __construct(int $numero, $fecha, Cliente $objCliente, array $colObjMotos){
         $this->numero = $numero;
         $this->fecha = $fecha;
         $this->objCliente = $objCliente;
