@@ -8,8 +8,7 @@
 // 4. Redefinir el método _toString para que retorne la información de los atributos de la clase.
 
 
-// 7. Implementar el método retornarVentasXCliente($tipo,$numDoc) que recibe por parámetro el tipo y
-// número de documento de un Cliente y retorna una colección con las ventas realizadas al cliente.
+
 
 class Empresa {
     private $denominacion;
@@ -108,6 +107,66 @@ class Empresa {
     }
 
     // 6. Implementar el método registrarVenta($colCodigosMoto, $objCliente) método que recibe por parámetro una colección de códigos de motos, la cual es recorrida, y por cada elemento de la colección se busca el objeto moto correspondiente al código y se incorpora a la colección de motos de la instancia Venta que debe ser creada. Recordar que no todos los clientes ni todas las motos, están disponibles para registrar una venta en un momento determinado. El método debe setear los variables instancias de venta que corresponda y retornar el importe final de la venta.
+    public function registrarVenta(array $colCodigosMoto, Cliente $objCliente){
+        $importeFinal = 0;
+        // Verificamos que el cliente no esté dado de baja
+        if (!$objCliente->getDadoDeBaja()){
+            // Creamos la venta
+            $venta = new Venta(1, new DateTime(), $objCliente, []);
+            // Recorremos los códigos de motos
+            foreach ($colCodigosMoto as $codigoMoto){
+                // Buscamos la moto con el código
+                $moto = $this->retornarMoto($codigoMoto);
+                // Si encontramos la moto
+                if ($moto != null){
+                    // La sumamos a la venta
+                    $venta->incorporarMoto($moto);
+                }
+            }
+            // Después de recorrer todos los códigos obtenemos el precio final
+            $importeFinal = $venta->getPrecioFinal();
+        } else {
+            // Si el cliente está dado de baja retorna -1
+            $importeFinal = -1;
+        }
+        return $importeFinal;
+    }
 
+    // 7. Implementar el método retornarVentasXCliente($tipo,$numDoc) que recibe por parámetro el tipo y número de documento de un Cliente y retorna una colección con las ventas realizadas al cliente.
+    public function retornarVentasXCliente(string $tipo, int $numDoc){
+        // Array donde vamos a guardar las ventas
+        $ventasCliente = [];
+        // Buscamos el cliente
+        $cliente = $this->buscarCliente($tipo, $numDoc);
+        // Si encontramos el cliente
+        if ($cliente != null){
+            // Recorremos todas las ventas
+            $colVentas = $this->getColObjVentas();
+            foreach ($colVentas as $venta){
+                // Verificamos si la venta es del cliente
+                if ($cliente == $venta->getObjCliente()){
+                    // Agregamos la venta al array
+                    array_push($ventasCliente, $venta);
+                }
+            }
+        }
+        // Retornamos el array
+        return $ventasCliente;
+    }
+
+    public function buscarCliente(string $tipo, int $numDoc){
+        $colClientes = $this->getObjClientes();
+        $clienteEncontrado = null;
+        $encontrado = false;
+        $i = 0;
+        while (!$encontrado && count($colClientes) > $i){
+            if ($colClientes[$i]->getTipoDocumento() == $tipo && $colClientes[$i]->getNumeroDocumento() == $numDoc){
+                $encontrado = true;
+                $clienteEncontrado = $colClientes[$i];
+            }
+            $i++;
+        }
+        return $clienteEncontrado;
+    }
 
 }
