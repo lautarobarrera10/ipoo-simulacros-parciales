@@ -19,7 +19,7 @@ $objMoto3 = new Moto (13, 999900, 2023, "Zanella Patagonian Eagle 250", 55, fals
 $empresa = new Empresa("Alta Gama", "Av Argenetina 123", [$objCliente1, $objCliente2] , [$objMoto1, $objMoto2, $objMoto3], []);
 
 // 5. Invocar al método registrarVenta($colCodigosMoto, $objCliente) de la Clase Empresa donde el $objCliente es una referencia a la clase Cliente almacenada en la variable $objCliente2 (creada en el punto 1) y la colección de códigos de motos es la siguiente [11,12,13]. Visualizar el resultado obtenido.
-// var_dump($empresa->registrarVenta([11,12,13], $objCliente2));
+var_dump($empresa->registrarVenta([11,12,13], $objCliente2));
 
 // 6. Invocar al método registrarVenta($colCodigosMotos, $objCliente) de la Clase Empresa donde el $objCliente es una referencia a la clase Cliente almacenada en la variable $objCliente2 (creada en elpunto 1) y la colección de códigos de motos es la siguiente [0]. Visualizar el resultado obtenido.
 // var_dump($empresa->registrarVenta([0], $objCliente2));
