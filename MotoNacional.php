@@ -3,9 +3,9 @@
 class MotoNacional extends Moto {
     private $porcentajeDescuento;
 
-    public function __construct(int $codigo, float $costo, int $anioFabricacion, string $descripcion, float $porcentajeIncrementoAnual, bool $activa){
+    public function __construct(int $codigo, float $costo, int $anioFabricacion, string $descripcion, float $porcentajeIncrementoAnual, bool $activa, float $porcentajeDescuento = 15){
         parent::__construct( $codigo,  $costo,  $anioFabricacion,  $descripcion,  $porcentajeIncrementoAnual,  $activa);
-        $this->porcentajeDescuento = 15;
+        $this->porcentajeDescuento = $porcentajeDescuento;
     }
 
     public function getProcentajeDescuento(){
